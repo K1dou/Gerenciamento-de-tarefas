@@ -1,5 +1,6 @@
 package com.kidou.aplicativo.de.gerenciamento.de.tarefas.controller;
 
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.exception.GerenciamentoDeTarefasException;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.UsuarioRegisterDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class LoginRegisteUsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUsuario(@RequestBody @Valid UsuarioRegisterDTO usuario){
+    public ResponseEntity<Void> registerUsuario(@RequestBody @Valid UsuarioRegisterDTO usuario) throws GerenciamentoDeTarefasException {
 
         logger.info("Criando usuario...");
         String senha = passwordEncoder.encode(usuario.getSenha());

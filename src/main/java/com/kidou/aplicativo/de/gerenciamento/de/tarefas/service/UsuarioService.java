@@ -1,5 +1,6 @@
 package com.kidou.aplicativo.de.gerenciamento.de.tarefas.service;
 
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.exception.GerenciamentoDeTarefasException;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.UsuarioRegisterDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity.Usuario;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.repository.UsuarioRepository;
@@ -19,10 +20,10 @@ public class UsuarioService implements UserDetailsService {
     private ModelMapper modelMapper;
 
 
-    public void salvaUsuario(UsuarioRegisterDTO usuario) {
+    public void salvaUsuario(UsuarioRegisterDTO usuario) throws GerenciamentoDeTarefasException {
         Usuario user = usuarioRepository.findByEmail(usuario.getEmail());
         if (user!=null){
-            throw new RuntimeException("o Usuario ja existe");
+            throw new GerenciamentoDeTarefasException("o Usuario ja existe");
         }
         user= new Usuario();
         modelMapper.map(usuario, user);
