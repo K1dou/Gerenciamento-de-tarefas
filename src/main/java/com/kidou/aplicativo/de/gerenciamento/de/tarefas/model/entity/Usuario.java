@@ -3,14 +3,18 @@ package com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import org.w3c.dom.stylesheets.LinkStyle;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario{
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -64,5 +68,21 @@ public class Usuario{
 
     public void setRoles(Role roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.roles==Role.ROLE_ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 }
