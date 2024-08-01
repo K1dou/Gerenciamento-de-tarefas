@@ -17,7 +17,7 @@ public class CriaTarefaDTO {
     private String descricao;
     private Nivel nivel;
     @NotEmpty(message = "Informe o nivel da Tarefa")
-    private Status status;
+    private Status status = Status.ABERTA;
 
     @NotEmpty(message = "Informe a data para o inicio da tarefa")
     private LocalDateTime dataDaTarefa;

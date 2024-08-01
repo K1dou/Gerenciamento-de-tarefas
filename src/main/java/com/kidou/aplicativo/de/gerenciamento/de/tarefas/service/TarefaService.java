@@ -31,7 +31,12 @@ public class TarefaService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CriaTarefaDTO criaTarefa(CriaTarefaDTO tarefaDTO){
+    public CriaTarefaDTO criaTarefa(CriaTarefaDTO tarefaDTO) throws GerenciamentoDeTarefasException {
+
+       LocalDateTime agora= LocalDateTime.now();
+       if (tarefaDTO.getDataDaTarefa().isBefore(agora)){
+           throw new GerenciamentoDeTarefasException("Não é possivel criar uma tarefa para um dia anterior a hoje!");
+       }
 
         Tarefa tarefa = modelMapper.map(tarefaDTO,Tarefa.class);
         tarefaRepository.save(tarefa);

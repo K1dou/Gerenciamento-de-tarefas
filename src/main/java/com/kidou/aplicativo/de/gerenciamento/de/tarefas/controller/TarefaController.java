@@ -21,7 +21,7 @@ public class TarefaController {
     //n pode criar tarefa pra dia anterior, settar tarefas criadas para em Aberta, quando buscar a tarefa atualizar o nivel dela
 
     @PostMapping("/criaTarefa")
-    public ResponseEntity<CriaTarefaDTO>criaTarefa(@RequestBody CriaTarefaDTO criaTarefaDTO){
+    public ResponseEntity<CriaTarefaDTO>criaTarefa(@RequestBody CriaTarefaDTO criaTarefaDTO) throws GerenciamentoDeTarefasException {
 
 
         return new ResponseEntity<CriaTarefaDTO>(tarefaService.criaTarefa(criaTarefaDTO), HttpStatus.CREATED);
