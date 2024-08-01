@@ -34,4 +34,18 @@ public class TarefaController {
         return new ResponseEntity<List<CriaTarefaDTO>>(tarefaService.buscaTarefas(),HttpStatus.OK);
     }
 
+    @GetMapping("/buscarTarefasAtrasdas")
+    public ResponseEntity<List<CriaTarefaDTO>>buscaTarefasAtrasadas(){
+
+
+        return new ResponseEntity<List<CriaTarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
+    }
+
+    @GetMapping("/buscarTarefasAbertas")
+    public ResponseEntity<List<CriaTarefaDTO>>buscarTarefasAbertas(){
+
+
+        return new ResponseEntity<List<CriaTarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
+    }
+
 }

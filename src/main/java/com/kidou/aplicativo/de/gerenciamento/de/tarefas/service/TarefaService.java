@@ -68,6 +68,21 @@ public class TarefaService {
         return tarefaDTOS;
     }
 
+    public List<CriaTarefaDTO> buscaTarefasAtrasadas(){
+        List<Tarefa> tarefas = tarefaRepository.buscaTarefasAtrasadas();
+
+        List<CriaTarefaDTO> tarefaDTOS = tarefas.stream().map(item->modelMapper.map(item,CriaTarefaDTO.class)).collect(Collectors.toList());
+        return tarefaDTOS;
+
+    }
+
+    public List<CriaTarefaDTO>buscarTarefasAbertas(){
+        List<Tarefa> tarefas = tarefaRepository.buscaTarefasAbertas();
+        List<CriaTarefaDTO> tarefaDTOS = tarefas.stream().map(item->modelMapper.map(item,CriaTarefaDTO.class)).collect(Collectors.toList());
+
+        return tarefaDTOS;
+    }
+
 
 
 }
