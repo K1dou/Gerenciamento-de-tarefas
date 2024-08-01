@@ -1,40 +1,27 @@
-package com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity;
+package com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity.Usuario;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Nivel;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Status;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 
+public class CriaTarefaDTO {
 
-@Entity
-@Table(name = "tarefa")
-public class Tarefa {
-
-    // criar, editar, deletar e visualizar tarefas.
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "user_fk"))
-    private Usuario user;
-
+    @NotEmpty(message = "Necessario informar o id do usuario")
+    private UsuarioDTO user;
+    @NotEmpty(message = "Necessario descriçao da sua tarefa")
     private String descricao;
-
-    @Enumerated(EnumType.STRING)
     private Nivel nivel;
-
-    @Enumerated(EnumType.STRING)
+    @NotEmpty(message = "Informe o nivel da Tarefa")
     private Status status;
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @NotEmpty(message = "Informe a data para o inicio da tarefa")
     private LocalDateTime dataDaTarefa;
-
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @NotEmpty(message = "Informe a data para o fim da tarefa")
     private LocalDateTime prazoDaTarefa;
 
     public Long getId() {
@@ -45,11 +32,11 @@ public class Tarefa {
         this.id = id;
     }
 
-    public Usuario getUser() {
+    public UsuarioDTO getUser() {
         return user;
     }
 
-    public void setUser(Usuario user) {
+    public void setUser(UsuarioDTO user) {
         this.user = user;
     }
 

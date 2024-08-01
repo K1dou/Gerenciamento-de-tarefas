@@ -24,7 +24,8 @@ public class Usuario implements UserDetails {
     private String email;
     private String senha;
 
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Tarefa>tarefas = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

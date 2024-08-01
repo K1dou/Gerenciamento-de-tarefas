@@ -2,7 +2,7 @@ package com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums;
 
 public enum Status {
 
-    REALIZADA("Realizada"),ATRASADA("Atrasada"),EM_ANDAMENTO("EmAndamento");
+    REALIZADA("Realizada"),ATRASADA("Atrasada"),ABERTA("Aberta");
 
     private String status;
 
