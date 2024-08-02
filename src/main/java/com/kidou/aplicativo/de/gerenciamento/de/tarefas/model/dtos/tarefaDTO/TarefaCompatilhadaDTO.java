@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TarefaDTO {
+public class TarefaCompatilhadaDTO {
 
     private Long id;
 
@@ -25,8 +25,7 @@ public class TarefaDTO {
     @NotEmpty(message = "Informe a data para o fim da tarefa")
     private LocalDateTime prazoDaTarefa;
 
-    private Tipo tipoDaTarefa = Tipo.INDIVIDUAL;
-
+    private Tipo tipoDaTarefa =Tipo.EM_GRUPO;
 
     public Tipo getTipoDaTarefa() {
         return tipoDaTarefa;

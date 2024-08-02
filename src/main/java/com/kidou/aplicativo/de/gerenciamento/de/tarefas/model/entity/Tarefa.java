@@ -3,25 +3,25 @@ package com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Nivel;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Status;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Tipo;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
 @Table(name = "tarefa")
 public class Tarefa {
 
-    // criar, editar, deletar e visualizar tarefas.
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "user_fk"))
-    private Usuario user;
+    @ManyToMany
+    @JoinTable(name = "users_tarefas",joinColumns = @JoinColumn(name = "tarefa_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Usuario> user;
 
     private String descricao;
 
@@ -37,6 +37,18 @@ public class Tarefa {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime prazoDaTarefa;
 
+    @Enumerated(EnumType.STRING)
+    private Tipo tipoDaTarefa;
+
+
+    public Tipo getTipoDaTarefa() {
+        return tipoDaTarefa;
+    }
+
+    public void setTipoDaTarefa(Tipo tipoDaTarefa) {
+        this.tipoDaTarefa = tipoDaTarefa;
+    }
+
     public Long getId() {
         return id;
     }
@@ -45,13 +57,21 @@ public class Tarefa {
         this.id = id;
     }
 
-    public Usuario getUser() {
+    public List<Usuario> getUser() {
         return user;
     }
 
-    public void setUser(Usuario user) {
+    public void setUser(List<Usuario> user) {
         this.user = user;
     }
+
+    //    public Usuario getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(Usuario user) {
+//        this.user = user;
+//    }
 
     public String getDescricao() {
         return descricao;
