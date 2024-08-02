@@ -48,6 +48,13 @@ public class TarefaController {
         return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
     }
 
+    @GetMapping("/buscarTarefasRealizadas")
+    public ResponseEntity<List<TarefaDTO>>buscaTarefasRealizadas() throws GerenciamentoDeTarefasException {
+
+
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasRealizadas(),HttpStatus.OK);
+    }
+
     @PutMapping("/editaTarefa")
     public ResponseEntity<TarefaUpdateDTO>editaTarefa(@RequestBody TarefaUpdateDTO tarefaUpdateDTO) throws GerenciamentoDeTarefasException {
 

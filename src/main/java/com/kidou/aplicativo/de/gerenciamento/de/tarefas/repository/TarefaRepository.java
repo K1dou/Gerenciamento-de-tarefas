@@ -24,4 +24,7 @@ public interface TarefaRepository extends JpaRepository<Tarefa,Long> {
 
     @Query("select t from Tarefa t where t.status = 'ABERTA'")
     List<Tarefa> buscaTarefasAbertas();
+
+    @Query("select t from Tarefa t where t.status = 'REALIZADA'")
+    List<Tarefa> buscaTarefasRealizadas();
 }

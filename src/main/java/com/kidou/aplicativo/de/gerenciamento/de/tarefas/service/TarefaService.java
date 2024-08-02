@@ -103,5 +103,12 @@ public class TarefaService {
     }
 
 
-
+    public List<TarefaDTO> buscaTarefasRealizadas() throws GerenciamentoDeTarefasException {
+        List<Tarefa> tarefasRealizadas = tarefaRepository.buscaTarefasRealizadas();
+        if (tarefasRealizadas.isEmpty()){
+            throw new GerenciamentoDeTarefasException("Nenhuma Tarefa concluída");
+        }
+        List<TarefaDTO>tarefaRealizadasDTOS = tarefasRealizadas.stream().map(item->modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
+        return tarefaRealizadasDTOS;
+    }
 }
