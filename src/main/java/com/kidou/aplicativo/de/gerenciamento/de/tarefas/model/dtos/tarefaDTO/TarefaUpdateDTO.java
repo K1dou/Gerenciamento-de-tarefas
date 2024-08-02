@@ -6,21 +6,14 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 
-public class CriaTarefaDTO {
+public class TarefaUpdateDTO {
 
+    @NotEmpty(message = "Informe o id da tarefa a ser editada")
     private Long id;
-
-    @NotEmpty(message = "Necessario informar o id do usuario")
-    private UsuarioDTO user;
-    @NotEmpty(message = "Necessario descriçao da sua tarefa")
     private String descricao;
     private Nivel nivel;
-    @NotEmpty(message = "Informe o nivel da Tarefa")
-    private Status status = Status.ABERTA;
-
-    @NotEmpty(message = "Informe a data para o inicio da tarefa")
+    private Status status;
     private LocalDateTime dataDaTarefa;
-    @NotEmpty(message = "Informe a data para o fim da tarefa")
     private LocalDateTime prazoDaTarefa;
 
     public Long getId() {
@@ -29,14 +22,6 @@ public class CriaTarefaDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public UsuarioDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UsuarioDTO user) {
-        this.user = user;
     }
 
     public String getDescricao() {

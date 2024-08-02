@@ -2,6 +2,7 @@ package com.kidou.aplicativo.de.gerenciamento.de.tarefas.controller;
 
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.exception.GerenciamentoDeTarefasException;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.CriaTarefaDTO;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaUpdateDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ public class TarefaController {
     @Autowired
     private TarefaService tarefaService;
 
-    //n pode criar tarefa pra dia anterior, settar tarefas criadas para em Aberta, quando buscar a tarefa atualizar o nivel dela
 
     @PostMapping("/criaTarefa")
     public ResponseEntity<CriaTarefaDTO>criaTarefa(@RequestBody CriaTarefaDTO criaTarefaDTO) throws GerenciamentoDeTarefasException {
@@ -46,6 +46,20 @@ public class TarefaController {
 
 
         return new ResponseEntity<List<CriaTarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
+    }
+
+    @PutMapping("/editaTarefa")
+    public ResponseEntity<TarefaUpdateDTO>editaTarefa(@RequestBody TarefaUpdateDTO tarefaUpdateDTO) throws GerenciamentoDeTarefasException {
+
+
+        return new ResponseEntity<TarefaUpdateDTO>(tarefaService.editaTarefa(tarefaUpdateDTO),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteTarefa/{idTarefa}")
+    public ResponseEntity<Void>deleteTarefaById(@PathVariable Long idTarefa) throws GerenciamentoDeTarefasException {
+        tarefaService.deleteTarefa(idTarefa);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
