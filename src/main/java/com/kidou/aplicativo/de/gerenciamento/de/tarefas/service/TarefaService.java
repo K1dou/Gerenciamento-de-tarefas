@@ -1,7 +1,7 @@
 package com.kidou.aplicativo.de.gerenciamento.de.tarefas.service;
 
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.exception.GerenciamentoDeTarefasException;
-import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.CriaTarefaDTO;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaUpdateDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity.Tarefa;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Status;
@@ -10,12 +10,8 @@ import jakarta.persistence.EntityManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +28,7 @@ public class TarefaService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CriaTarefaDTO criaTarefa(CriaTarefaDTO tarefaDTO) throws GerenciamentoDeTarefasException {
+    public TarefaDTO criaTarefa(TarefaDTO tarefaDTO) throws GerenciamentoDeTarefasException {
 
         LocalDateTime agora = LocalDateTime.now();
         if (tarefaDTO.getDataDaTarefa().isBefore(agora)) {
@@ -43,11 +39,11 @@ public class TarefaService {
         tarefaRepository.save(tarefa);
 
 
-        return modelMapper.map(tarefa, CriaTarefaDTO.class);
+        return modelMapper.map(tarefa, TarefaDTO.class);
     }
 
 
-    public List<CriaTarefaDTO> buscaTarefas() throws GerenciamentoDeTarefasException, ParseException {
+    public List<TarefaDTO> buscaTarefas() throws GerenciamentoDeTarefasException, ParseException {
         List<Tarefa> tarefas = tarefaRepository.findAll();
 
         LocalDateTime agora = LocalDateTime.now();
@@ -64,24 +60,33 @@ public class TarefaService {
         }
 
 
-        List<CriaTarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, CriaTarefaDTO.class)).collect(Collectors.toList());
+        List<TarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
         return tarefaDTOS;
     }
 
-    public List<CriaTarefaDTO> buscaTarefasAtrasadas() {
+    public List<TarefaDTO> buscaTarefasAtrasadas() {
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAtrasadas();
 
-        List<CriaTarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, CriaTarefaDTO.class)).collect(Collectors.toList());
+        List<TarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
         return tarefaDTOS;
 
     }
 
-    public List<CriaTarefaDTO> buscarTarefasAbertas() {
+    public List<TarefaDTO> buscarTarefasAbertas() {
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAbertas();
-        List<CriaTarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, CriaTarefaDTO.class)).collect(Collectors.toList());
+        List<TarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
 
         return tarefaDTOS;
     }
+
+    public String concluiTarefa(Long idTarefa) throws GerenciamentoDeTarefasException {
+        Tarefa tarefa = tarefaRepository.findById(idTarefa).orElseThrow(() -> new GerenciamentoDeTarefasException("Tarefa não encontrada"));
+        tarefa.setStatus(Status.REALIZADA);
+        tarefaRepository.saveAndFlush(tarefa);
+        return "Tarefa concluída";
+    }
+
+
 
     public TarefaUpdateDTO editaTarefa(TarefaUpdateDTO tarefaUpdateDTO) throws GerenciamentoDeTarefasException {
 
@@ -96,6 +101,7 @@ public class TarefaService {
         Tarefa tarefa = tarefaRepository.findById(idTarefa).orElseThrow(() -> new GerenciamentoDeTarefasException("Tarefa não encontrada"));
         tarefaRepository.deleteById(idTarefa);
     }
+
 
 
 }

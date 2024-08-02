@@ -1,7 +1,7 @@
 package com.kidou.aplicativo.de.gerenciamento.de.tarefas.controller;
 
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.exception.GerenciamentoDeTarefasException;
-import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.CriaTarefaDTO;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaUpdateDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,31 +21,31 @@ public class TarefaController {
 
 
     @PostMapping("/criaTarefa")
-    public ResponseEntity<CriaTarefaDTO>criaTarefa(@RequestBody CriaTarefaDTO criaTarefaDTO) throws GerenciamentoDeTarefasException {
+    public ResponseEntity<TarefaDTO>criaTarefa(@RequestBody TarefaDTO tarefaDTO) throws GerenciamentoDeTarefasException {
 
 
-        return new ResponseEntity<CriaTarefaDTO>(tarefaService.criaTarefa(criaTarefaDTO), HttpStatus.CREATED);
+        return new ResponseEntity<TarefaDTO>(tarefaService.criaTarefa(tarefaDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/buscaTarefas")
-    public ResponseEntity<List<CriaTarefaDTO>>buscaTarefas() throws GerenciamentoDeTarefasException, ParseException {
+    public ResponseEntity<List<TarefaDTO>>buscaTarefas() throws GerenciamentoDeTarefasException, ParseException {
 
 
-        return new ResponseEntity<List<CriaTarefaDTO>>(tarefaService.buscaTarefas(),HttpStatus.OK);
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefas(),HttpStatus.OK);
     }
 
     @GetMapping("/buscarTarefasAtrasdas")
-    public ResponseEntity<List<CriaTarefaDTO>>buscaTarefasAtrasadas(){
+    public ResponseEntity<List<TarefaDTO>>buscaTarefasAtrasadas(){
 
 
-        return new ResponseEntity<List<CriaTarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
     }
 
     @GetMapping("/buscarTarefasAbertas")
-    public ResponseEntity<List<CriaTarefaDTO>>buscarTarefasAbertas(){
+    public ResponseEntity<List<TarefaDTO>>buscarTarefasAbertas(){
 
 
-        return new ResponseEntity<List<CriaTarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasAtrasadas(),HttpStatus.OK);
     }
 
     @PutMapping("/editaTarefa")
@@ -60,6 +60,13 @@ public class TarefaController {
         tarefaService.deleteTarefa(idTarefa);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/concluirTarefa/{idTarefa}")
+    public ResponseEntity<String>concluiTarefa(@PathVariable Long idTarefa) throws GerenciamentoDeTarefasException {
+
+
+        return new ResponseEntity<String>(tarefaService.concluiTarefa(idTarefa),HttpStatus.OK);
     }
 
 }

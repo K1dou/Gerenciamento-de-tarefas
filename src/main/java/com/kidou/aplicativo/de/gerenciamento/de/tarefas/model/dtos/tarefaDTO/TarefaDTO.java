@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 
-public class CriaTarefaDTO {
+public class TarefaDTO {
 
     private Long id;
 
