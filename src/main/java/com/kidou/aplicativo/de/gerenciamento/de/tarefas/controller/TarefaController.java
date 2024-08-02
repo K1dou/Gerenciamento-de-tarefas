@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -55,6 +57,13 @@ public class TarefaController {
         return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasRealizadas(),HttpStatus.OK);
     }
 
+    @GetMapping("/buscarTarefasEntreAsDatas/{dataDeInicio}/{dataDeTermino}")
+    public ResponseEntity<List<TarefaDTO>>buscarTarefasEntreAsDatas(@PathVariable LocalDate dataDeInicio, @PathVariable LocalDate dataDeTermino) throws GerenciamentoDeTarefasException {
+
+
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscarTarefasEntreAsDatas(dataDeInicio,dataDeTermino),HttpStatus.OK);
+    }
+
     @PutMapping("/editaTarefa")
     public ResponseEntity<TarefaUpdateDTO>editaTarefa(@RequestBody TarefaUpdateDTO tarefaUpdateDTO) throws GerenciamentoDeTarefasException {
 
@@ -75,5 +84,7 @@ public class TarefaController {
 
         return new ResponseEntity<String>(tarefaService.concluiTarefa(idTarefa),HttpStatus.OK);
     }
+
+
 
 }

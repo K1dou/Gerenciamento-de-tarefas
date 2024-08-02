@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TarefaRepository extends JpaRepository<Tarefa,Long> {
@@ -27,4 +28,7 @@ public interface TarefaRepository extends JpaRepository<Tarefa,Long> {
 
     @Query("select t from Tarefa t where t.status = 'REALIZADA'")
     List<Tarefa> buscaTarefasRealizadas();
+
+    @Query("select t from Tarefa t where t.dataDaTarefa>= ?1 and t.prazoDaTarefa<= ?2")
+    List<Tarefa> buscarTarefasEntreAsDatas(LocalDateTime dataDeInicio, LocalDateTime dataDeTermino);
 }

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,4 +113,21 @@ public class TarefaService {
         List<TarefaDTO>tarefaRealizadasDTOS = tarefasRealizadas.stream().map(item->modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
         return tarefaRealizadasDTOS;
     }
+
+
+    public List<TarefaDTO>buscarTarefasEntreAsDatas(LocalDate dataDeInicio, LocalDate dataDeTermino) throws GerenciamentoDeTarefasException {
+
+        LocalDateTime inicioDoDia = dataDeInicio.atStartOfDay();
+        LocalDateTime fimDoDia = dataDeTermino.atTime(LocalTime.MAX);
+
+        List<Tarefa>tarefasEntreDatas = tarefaRepository.buscarTarefasEntreAsDatas(inicioDoDia,fimDoDia);
+
+        if (tarefasEntreDatas.isEmpty()){
+            throw new GerenciamentoDeTarefasException("Nenhuma tarefa entre essas datas");
+        }
+        List<TarefaDTO>tarefasEntreDatasDTO = tarefasEntreDatas.stream().map(item->modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
+        return tarefasEntreDatasDTO;
+    }
+
+
 }
