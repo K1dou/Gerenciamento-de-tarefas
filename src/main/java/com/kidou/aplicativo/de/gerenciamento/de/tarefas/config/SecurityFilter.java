@@ -2,6 +2,7 @@ package com.kidou.aplicativo.de.gerenciamento.de.tarefas.config;
 
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity.Usuario;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.repository.UsuarioRepository;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.UsuarioService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,6 +24,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private UsuarioService usuarioService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -29,8 +33,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = recoverToken(request);
         if (token!=null){
 
-         Usuario usuario = usuarioRepository.findByEmail(tokenService.validateToken(token)) ;
-         var auth = new UsernamePasswordAuthenticationToken(usuario.getUsername(),null,usuario.getAuthorities());
+         UserDetails userDetails = usuarioService.loadUserByUsername(tokenService.validateToken(token));
+         var auth = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),null,userDetails.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

@@ -4,13 +4,17 @@ import com.kidou.aplicativo.de.gerenciamento.de.tarefas.exception.GerenciamentoD
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaCompatilhadaDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaDTO;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.dtos.tarefaDTO.TarefaUpdateDTO;
-import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Role;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity.Usuario;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.repository.UsuarioRepository;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.TarefaService;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -25,14 +29,19 @@ public class TarefaController {
     @Autowired
     private TarefaService tarefaService;
 
+    @Autowired
+    private UsuarioService usuarioService;
 
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/criaTarefa")
     public ResponseEntity<TarefaDTO>criaTarefa(@RequestBody TarefaDTO tarefaDTO) throws GerenciamentoDeTarefasException {
 
 
         return new ResponseEntity<TarefaDTO>(tarefaService.criaTarefa(tarefaDTO), HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/criaTarefaCompatilhada")
     public ResponseEntity<TarefaCompatilhadaDTO>criaTarefaCompatilhada(@RequestBody TarefaCompatilhadaDTO tarefaCompatilhadaDTO) throws GerenciamentoDeTarefasException {
 
@@ -113,53 +122,57 @@ public class TarefaController {
 
 
 
+
                                                           */
-    @GetMapping("/buscaTarefasPorIdUsuario/{idUsuario}")
-    public ResponseEntity<List<TarefaDTO>>buscaTarefasPorIdUsuario(@PathVariable Long idUsuario) throws GerenciamentoDeTarefasException, ParseException {
 
 
-        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasPorIdUsuario(idUsuario),HttpStatus.OK);
-    }
-
-    @GetMapping("/buscaTarefasAtrasadasPorIdUsuario/{idUsuario}")
-    public ResponseEntity<List<TarefaDTO>>buscaTarefasAtrasadasPorIdUsuario(@PathVariable Long idUsuario) throws GerenciamentoDeTarefasException, ParseException {
+    @GetMapping("/buscaTarefasPorIdUsuario")
+    public ResponseEntity<List<TarefaDTO>>buscaTarefasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
 
 
-        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasAtrasadasPorIdUsuario(idUsuario),HttpStatus.OK);
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasPorIdUsuario(),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/buscarTarefasAbertasPorIdUsuario/{idUsuario}")
-    public ResponseEntity<List<TarefaDTO>>buscaTarefasAbertasPorIdUsuario(@PathVariable Long idUsuario) throws GerenciamentoDeTarefasException, ParseException {
+    @GetMapping("/buscaTarefasAtrasadasPorIdUsuario")
+    public ResponseEntity<List<TarefaDTO>>buscaTarefasAtrasadasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
 
 
-        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscarTarefasAbertasPorIdUsuario(idUsuario),HttpStatus.OK);
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasAtrasadasPorIdUsuario(),HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/buscarTarefasAbertasPorIdUsuario")
+    public ResponseEntity<List<TarefaDTO>>buscaTarefasAbertasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
+
+
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscarTarefasAbertasPorIdUsuario(),HttpStatus.OK);
     }
 
-    @GetMapping("/buscaTarefasRealizadasPorIdUsuario/{idUsuario}")
-    public ResponseEntity<List<TarefaDTO>>buscaTarefasRealizadasPorIdUsuario(@PathVariable Long idUsuario) throws GerenciamentoDeTarefasException, ParseException {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/buscaTarefasRealizadasPorIdUsuario")
+    public ResponseEntity<List<TarefaDTO>>buscaTarefasRealizadasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
 
 
-        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasRealizadasPorIdUsuario(idUsuario),HttpStatus.OK);
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscaTarefasRealizadasPorIdUsuario(),HttpStatus.OK);
     }
 
-    @GetMapping("/buscarTarefasEntreAsDatasPorIdUsuario/{dataDeInicio}/{dataDeTermino}/{idUsuario}")
-    public ResponseEntity<List<TarefaDTO>>buscarTarefasEntreAsDatasPorIdUsuario(@PathVariable LocalDate dataDeInicio, @PathVariable LocalDate dataDeTermino,@PathVariable Long idUsuario) throws GerenciamentoDeTarefasException {
+    @GetMapping("/buscarTarefasEntreAsDatasPorIdUsuario/{dataDeInicio}/{dataDeTermino}")
+    public ResponseEntity<List<TarefaDTO>>buscarTarefasEntreAsDatasPorIdUsuario(@PathVariable LocalDate dataDeInicio, @PathVariable LocalDate dataDeTermino) throws GerenciamentoDeTarefasException {
 
 
-        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscarTarefasEntreAsDatasPorIdUsuario(dataDeInicio,dataDeTermino,idUsuario),HttpStatus.OK);
+        return new ResponseEntity<List<TarefaDTO>>(tarefaService.buscarTarefasEntreAsDatasPorIdUsuario(dataDeInicio,dataDeTermino),HttpStatus.OK);
     }
 
-    @PutMapping("/concluiTarefaPorIdUsuario/{idTarefa}/{idUsuario}")
-    public ResponseEntity<String>concluiTarefaPorIdUsuario(@PathVariable Long idTarefa,@PathVariable Long idUsuario) throws GerenciamentoDeTarefasException {
+    @PutMapping("/concluiTarefaPorIdUsuario/{idTarefa}")
+    public ResponseEntity<String>concluiTarefaPorIdUsuario(@PathVariable Long idTarefa) throws GerenciamentoDeTarefasException {
 
 
-        return new ResponseEntity<String>(tarefaService.concluiTarefaPorIdUsuario(idTarefa,idUsuario),HttpStatus.OK);
+        return new ResponseEntity<String>(tarefaService.concluiTarefaPorIdUsuario(idTarefa),HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteTarefaPorIdUsuario/{idTarefa}/{idUsuario}")
-    public ResponseEntity<Void>deleteTarefaById(@PathVariable Long idTarefa,@PathVariable Long idUsuario) throws GerenciamentoDeTarefasException {
-       tarefaService.deleteTarefaPorIdUsuario(idTarefa,idUsuario);
+    @DeleteMapping("/deleteTarefaPorIdUsuario/{idTarefa}")
+    public ResponseEntity<Void>deleteTarefaByIdUsuario(@PathVariable Long idTarefa) throws GerenciamentoDeTarefasException {
+       tarefaService.deleteTarefaPorIdUsuario(idTarefa);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

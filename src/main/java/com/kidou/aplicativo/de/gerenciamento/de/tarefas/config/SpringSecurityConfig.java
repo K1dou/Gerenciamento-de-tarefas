@@ -25,8 +25,8 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
        return httpSecurity.csrf(csrf->csrf.disable()).sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize->authorize.requestMatchers("/**").permitAll()
-                        .requestMatchers("/v1/auth/**").permitAll()
+                .authorizeHttpRequests(authorize->authorize.requestMatchers("/v1/auth/**").permitAll()
+                        .requestMatchers("/**").permitAll()
 
 
                 )

@@ -12,6 +12,9 @@ import com.kidou.aplicativo.de.gerenciamento.de.tarefas.repository.UsuarioReposi
 import jakarta.persistence.EntityManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -35,6 +38,19 @@ public class TarefaService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+
+    private Long obtemIdUsuario() {
+
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = (Usuario) usuarioService.loadUserByUsername(email);
+        Long idUsuario = usuario.getId();
+        return idUsuario;
+    }
+
 
     public TarefaDTO criaTarefa(TarefaDTO tarefaDTO) throws GerenciamentoDeTarefasException {
 
@@ -92,7 +108,11 @@ public class TarefaService {
         return tarefaDTOS;
     }
 
-    public List<TarefaDTO> buscaTarefasPorIdUsuario(Long idUsuario) throws GerenciamentoDeTarefasException, ParseException {
+
+    public List<TarefaDTO> buscaTarefasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
+
+        Long idUsuario = obtemIdUsuario();
+
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasPorIdUsuario(idUsuario);
 
         if (tarefas.isEmpty()) {
@@ -117,7 +137,6 @@ public class TarefaService {
         return tarefaDTOS;
     }
 
-
     public List<TarefaDTO> buscaTarefasAtrasadas() throws GerenciamentoDeTarefasException {
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAtrasadas();
 
@@ -137,7 +156,9 @@ public class TarefaService {
 
     }
 
-    public List<TarefaDTO> buscaTarefasAtrasadasPorIdUsuario(Long idUsuario) throws GerenciamentoDeTarefasException {
+    public List<TarefaDTO> buscaTarefasAtrasadasPorIdUsuario() throws GerenciamentoDeTarefasException {
+        Long idUsuario = obtemIdUsuario();
+
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAtrasadasPorIdUsuario(idUsuario);
 
         if (tarefas.isEmpty()) {
@@ -156,7 +177,6 @@ public class TarefaService {
         return tarefaDTOS;
 
     }
-
 
     public List<TarefaDTO> buscarTarefasAbertas() throws GerenciamentoDeTarefasException {
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAbertas();
@@ -177,8 +197,9 @@ public class TarefaService {
         return tarefaDTOS;
     }
 
+    public List<TarefaDTO> buscarTarefasAbertasPorIdUsuario() throws GerenciamentoDeTarefasException {
 
-    public List<TarefaDTO> buscarTarefasAbertasPorIdUsuario(Long idUsuario) throws GerenciamentoDeTarefasException {
+        Long idUsuario = obtemIdUsuario();
 
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAbertasPorIdUsuario(idUsuario);
 
@@ -216,7 +237,9 @@ public class TarefaService {
         return tarefaRealizadasDTOS;
     }
 
-    public List<TarefaDTO> buscaTarefasRealizadasPorIdUsuario(Long idUsuario) throws GerenciamentoDeTarefasException {
+    public List<TarefaDTO> buscaTarefasRealizadasPorIdUsuario() throws GerenciamentoDeTarefasException {
+        Long idUsuario = obtemIdUsuario();
+
         List<Tarefa> tarefasRealizadas = tarefaRepository.buscaTarefasRealizadasPorIdUsuario(idUsuario);
         if (tarefasRealizadas.isEmpty()) {
             throw new GerenciamentoDeTarefasException("Nenhuma Tarefa concluída");
@@ -256,7 +279,8 @@ public class TarefaService {
         return tarefasEntreDatasDTO;
     }
 
-    public List<TarefaDTO> buscarTarefasEntreAsDatasPorIdUsuario(LocalDate dataDeInicio, LocalDate dataDeTermino, Long idUsuario) throws GerenciamentoDeTarefasException {
+    public List<TarefaDTO> buscarTarefasEntreAsDatasPorIdUsuario(LocalDate dataDeInicio, LocalDate dataDeTermino) throws GerenciamentoDeTarefasException {
+        Long idUsuario = obtemIdUsuario();
 
         LocalDateTime inicioDoDia = dataDeInicio.atStartOfDay();
         LocalDateTime fimDoDia = dataDeTermino.atTime(LocalTime.MAX);
@@ -286,7 +310,9 @@ public class TarefaService {
         return "Tarefa concluída";
     }
 
-    public String concluiTarefaPorIdUsuario(Long idTarefa, Long idUsuario) throws GerenciamentoDeTarefasException {
+    public String concluiTarefaPorIdUsuario(Long idTarefa) throws GerenciamentoDeTarefasException {
+
+        Long idUsuario = obtemIdUsuario();
         tarefaRepository.concluiTarefaPorIdUsuario(idTarefa, idUsuario);
 
         Tarefa tarefa = tarefaRepository.findById(idTarefa).orElseThrow(() -> new GerenciamentoDeTarefasException("Tarefa não encontrada"));
@@ -313,12 +339,14 @@ public class TarefaService {
         tarefaRepository.deleteById(idTarefa);
     }
 
-    public void deleteTarefaPorIdUsuario(Long idTarefa, Long idUsuario) throws GerenciamentoDeTarefasException {
+    public void deleteTarefaPorIdUsuario(Long idTarefa) throws GerenciamentoDeTarefasException {
+        Long idUsuario = obtemIdUsuario();
+
         Tarefa tarefa = tarefaRepository.findById(idTarefa).orElseThrow(() -> new GerenciamentoDeTarefasException("Tarefa não encontrada"));
         boolean isTheUser = tarefaRepository.tarefaIsTheUser(idTarefa, idUsuario);
         if (isTheUser) {
             tarefaRepository.deleteById(idTarefa);
-        }else throw new GerenciamentoDeTarefasException("O usuario não tem essa tarefa");
+        } else throw new GerenciamentoDeTarefasException("O usuario não tem essa tarefa");
 
     }
 
