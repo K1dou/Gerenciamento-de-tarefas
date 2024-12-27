@@ -51,6 +51,34 @@ public class TarefaService {
         return idUsuario;
     }
 
+    public List<TarefaDTO> buscaTarefasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
+
+        Long idUsuario = obtemIdUsuario();
+
+        List<Tarefa> tarefas = tarefaRepository.buscaTarefasPorIdUsuario(idUsuario);
+
+        if (tarefas.isEmpty()) {
+            throw new GerenciamentoDeTarefasException("Nenhuma tarefa encotrada");
+        }
+
+        LocalDateTime agora = LocalDateTime.now();
+
+        if (tarefas.isEmpty()) {
+            throw new GerenciamentoDeTarefasException("Nenhuma tarefa no momento");
+        }
+
+        for (Tarefa t : tarefas) {
+            if (t.getPrazoDaTarefa().isBefore(agora)) {
+                t.setStatus(Status.ATRASADA);
+                tarefaRepository.saveAndFlush(t);
+            }
+        }
+
+
+        List<TarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
+        return tarefaDTOS;
+    }
+
 
     public TarefaDTO criaTarefa(TarefaDTO tarefaDTO) throws GerenciamentoDeTarefasException {
 
@@ -108,34 +136,6 @@ public class TarefaService {
         return tarefaDTOS;
     }
 
-
-    public List<TarefaDTO> buscaTarefasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
-
-        Long idUsuario = obtemIdUsuario();
-
-        List<Tarefa> tarefas = tarefaRepository.buscaTarefasPorIdUsuario(idUsuario);
-
-        if (tarefas.isEmpty()) {
-            throw new GerenciamentoDeTarefasException("Nenhuma tarefa encotrada");
-        }
-
-        LocalDateTime agora = LocalDateTime.now();
-
-        if (tarefas.isEmpty()) {
-            throw new GerenciamentoDeTarefasException("Nenhuma tarefa no momento");
-        }
-
-        for (Tarefa t : tarefas) {
-            if (t.getPrazoDaTarefa().isBefore(agora)) {
-                t.setStatus(Status.ATRASADA);
-                tarefaRepository.saveAndFlush(t);
-            }
-        }
-
-
-        List<TarefaDTO> tarefaDTOS = tarefas.stream().map(item -> modelMapper.map(item, TarefaDTO.class)).collect(Collectors.toList());
-        return tarefaDTOS;
-    }
 
     public List<TarefaDTO> buscaTarefasAtrasadas() throws GerenciamentoDeTarefasException {
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAtrasadas();

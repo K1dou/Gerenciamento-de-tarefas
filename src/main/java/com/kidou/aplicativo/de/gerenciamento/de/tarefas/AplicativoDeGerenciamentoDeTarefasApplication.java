@@ -8,6 +8,9 @@ public class AplicativoDeGerenciamentoDeTarefasApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AplicativoDeGerenciamentoDeTarefasApplication.class, args);
+
+
+
 	}
 
 }

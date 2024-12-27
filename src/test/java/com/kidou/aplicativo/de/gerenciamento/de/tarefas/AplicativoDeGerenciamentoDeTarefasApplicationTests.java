@@ -8,6 +8,7 @@ class AplicativoDeGerenciamentoDeTarefasApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

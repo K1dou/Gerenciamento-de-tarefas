@@ -11,16 +11,8 @@ public class UsuarioRegisterDTO {
     private String email;
     @NotBlank(message = "Informe a senha")
     private String senha;
-    private Role roles;
 
 
-    public Role getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Role roles) {
-        this.roles = roles;
-    }
 
     public String getEmail() {
         return email;

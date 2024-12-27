@@ -25,7 +25,7 @@ public class Usuario implements UserDetails {
     private String senha;
 
 
-    @ManyToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Tarefa>tarefas = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

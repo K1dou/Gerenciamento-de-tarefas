@@ -41,14 +41,6 @@ public class Tarefa {
     private Tipo tipoDaTarefa;
 
 
-    public Tipo getTipoDaTarefa() {
-        return tipoDaTarefa;
-    }
-
-    public void setTipoDaTarefa(Tipo tipoDaTarefa) {
-        this.tipoDaTarefa = tipoDaTarefa;
-    }
-
     public Long getId() {
         return id;
     }
@@ -64,14 +56,6 @@ public class Tarefa {
     public void setUser(List<Usuario> user) {
         this.user = user;
     }
-
-    //    public Usuario getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(Usuario user) {
-//        this.user = user;
-//    }
 
     public String getDescricao() {
         return descricao;
@@ -111,5 +95,13 @@ public class Tarefa {
 
     public void setPrazoDaTarefa(LocalDateTime prazoDaTarefa) {
         this.prazoDaTarefa = prazoDaTarefa;
+    }
+
+    public Tipo getTipoDaTarefa() {
+        return tipoDaTarefa;
+    }
+
+    public void setTipoDaTarefa(Tipo tipoDaTarefa) {
+        this.tipoDaTarefa = tipoDaTarefa;
     }
 }
