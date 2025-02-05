@@ -5,6 +5,15 @@ public class UsuarioDTO {
     private Long id;
     private String email;
 
+
+    public UsuarioDTO() {
+    }
+
+    public UsuarioDTO(Long id, String email) {
+        this.id = id;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }

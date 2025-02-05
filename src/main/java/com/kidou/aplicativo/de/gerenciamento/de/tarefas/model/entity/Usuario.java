@@ -31,6 +31,18 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role roles;
 
+    public Usuario() {
+    }
+
+    public Usuario(Role roles, String senha, String email) {
+        this.roles = roles;
+        this.senha = senha;
+        this.email = email;
+    }
+
+    public Usuario(Long id, String email) {
+    }
+
     public List<Tarefa> getTarefas() {
         return tarefas;
     }

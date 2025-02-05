@@ -41,10 +41,10 @@ public class UsuarioController {
 
 
     @GetMapping("/findUserByName/{name}")
-    public ResponseEntity<List<UsuarioDTO>>findUserByName(@PathVariable String name){
+    public ResponseEntity<UsuarioDTO>findUserByEmail(@PathVariable String name){
 
 
-        return new ResponseEntity<List<UsuarioDTO>>(usuarioService.findUserByName(name),HttpStatus.OK);
+        return new ResponseEntity<UsuarioDTO>(usuarioService.findUserByEmail(name),HttpStatus.OK);
     }
 
 

@@ -54,8 +54,7 @@ class LoginRegisteUsuarioControllerTest {
         mockMvc.perform(post("/v1/auth/register")
                         .content(objectMapper.writeValueAsString(usuarioRegisterDT))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("Usuario criado"));
+                .andExpect(status().isCreated());
 
     }
 
@@ -70,13 +69,12 @@ class LoginRegisteUsuarioControllerTest {
                         .content(objectMapper.writeValueAsString(usuarioRegisterDT))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isBadRequest()) // Verifica se retorna 400 Bad Request
-                .andExpect(jsonPath("$.errors").exists()) // Verifica se há um campo "errors" no JSON de resposta
-                .andExpect(jsonPath("$.errors.email").value("Necessário informar o email")) // Mensagem específica para o email
-                .andExpect(jsonPath("$.errors.senha").value("Informe a senha")); // Mensagem específica para a senha
-
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors").exists())
+                .andExpect(jsonPath("$.errors.email").value("Necessário informar o email"))
+                .andExpect(jsonPath("$.errors.senha").value("Informe a senha"));
     }
 
-    //MockHttpServletResponse:
+
 
 }

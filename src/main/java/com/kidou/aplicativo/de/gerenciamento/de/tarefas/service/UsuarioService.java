@@ -77,11 +77,11 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.delete(usuario);
     }
 
-    public List<UsuarioDTO> findUserByName(String name) {
-        List<Usuario> usuarios = usuarioRepository.findUserByEmail(name);
-        List<UsuarioDTO> usuarioDTOS = usuarios.stream().map(user -> modelMapper.map(user, UsuarioDTO.class)).collect(Collectors.toList());
+    public UsuarioDTO findUserByEmail(String name) {
+        Usuario usuario = usuarioRepository.findByEmail(name);
+        UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
 
-        return usuarioDTOS;
+        return usuarioDTO;
     }
 
     public String registerUsuario(UsuarioRegisterDTO usuarioRegisterDTO) throws GerenciamentoDeTarefasException {
