@@ -27,6 +27,18 @@ public class TarefaCompatilhadaDTO {
 
     private Tipo tipoDaTarefa =Tipo.EM_GRUPO;
 
+
+    public TarefaCompatilhadaDTO() {
+    }
+
+    public TarefaCompatilhadaDTO(List<UsuarioDTO> user, String descricao, Nivel nivel, LocalDateTime dataDaTarefa, LocalDateTime prazoDaTarefa) {
+        this.user = user;
+        this.descricao = descricao;
+        this.nivel = nivel;
+        this.dataDaTarefa = dataDaTarefa;
+        this.prazoDaTarefa = prazoDaTarefa;
+    }
+
     public Tipo getTipoDaTarefa() {
         return tipoDaTarefa;
     }

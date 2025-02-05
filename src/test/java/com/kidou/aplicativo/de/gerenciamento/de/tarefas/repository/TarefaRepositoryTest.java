@@ -7,21 +7,14 @@ import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Role;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Status;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.enums.Tipo;
 import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @DataJpaTest
 class TarefaRepositoryTest {

@@ -40,6 +40,19 @@ public class Tarefa {
     @Enumerated(EnumType.STRING)
     private Tipo tipoDaTarefa;
 
+    public Tarefa() {
+    }
+
+    public Tarefa(Long id, List<Usuario> user, String descricao, Nivel nivel, Status status, LocalDateTime dataDaTarefa, LocalDateTime prazoDaTarefa, Tipo tipoDaTarefa) {
+        this.id = id;
+        this.user = user;
+        this.descricao = descricao;
+        this.nivel = nivel;
+        this.status = status;
+        this.dataDaTarefa = dataDaTarefa;
+        this.prazoDaTarefa = prazoDaTarefa;
+        this.tipoDaTarefa = tipoDaTarefa;
+    }
 
     public Long getId() {
         return id;

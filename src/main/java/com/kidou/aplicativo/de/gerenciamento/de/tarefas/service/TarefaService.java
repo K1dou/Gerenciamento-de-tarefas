@@ -104,6 +104,7 @@ public class TarefaService {
         if (tarefaCompatilhadaDTO.getDataDaTarefa().isBefore(agora)) {
             throw new GerenciamentoDeTarefasException("Não é possivel criar uma tarefa para um dia anterior a hoje!");
         }
+
         Tarefa tarefa = modelMapper.map(tarefaCompatilhadaDTO, Tarefa.class);
         tarefaRepository.save(tarefa);
 

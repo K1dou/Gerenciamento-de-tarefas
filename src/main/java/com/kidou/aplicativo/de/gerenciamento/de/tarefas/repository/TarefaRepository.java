@@ -13,10 +13,10 @@ import java.util.List;
 public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
 
 
-    @Transactional
-    @Modifying
-    @Query("update Tarefa t set t.status = ?1 where t.id = ?2 ")
-    void alteraStatus(Status status, Long id);
+//    @Transactional
+//    @Modifying
+//    @Query("update Tarefa t set t.status = ?1 where t.id = ?2 ")
+//    void alteraStatus(Status status, Long id);
 
 
     @Query("select t from Tarefa t where t.status = 'ATRASADA'")
