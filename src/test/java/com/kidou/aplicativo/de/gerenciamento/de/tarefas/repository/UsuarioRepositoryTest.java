@@ -26,13 +26,27 @@ class UsuarioRepositoryTest {
     @DisplayName("deve retornar usuario com sucesso")
     void findByEmailCase1() {
 
-        Usuario usuario = new Usuario(Role.ROLE_USER,"senha","hique1276@gmail.com");
+        Usuario usuario = new Usuario(Role.ROLE_USER, "senha", "hique1276@gmail.com");
 
         entityManager.persist(usuario);
 
         Usuario resultado = usuarioRepository.findByEmail("hique1276@gmail.com");
 
         assertThat(resultado).isNotNull();
+
+    }
+
+    @Test
+    @DisplayName("nao deve retornar usuario")
+    void findByEmailCase2() {
+
+        Usuario usuario = new Usuario(Role.ROLE_USER, "senha", "hique1276@gmail.com");
+
+        entityManager.persist(usuario);
+
+        Usuario resultado = usuarioRepository.findByEmail("hique@gmail.com");
+
+        assertThat(resultado).isNull();
 
     }
 
