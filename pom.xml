@@ -94,7 +94,6 @@
 			<version>4.4.0</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -109,6 +108,28 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.2</version>
+				<configuration>
+					<to>
+
+						<image>docker.io/k1do/tarefaservice:v5</image>
+
+						<auth>
+							<username>k1do</username>
+							<password>Marcelo2809@</password>
+						</auth>
+					</to>
+				</configuration>
+			</plugin>
+
+
+
+
 		</plugins>
 	</build>
 

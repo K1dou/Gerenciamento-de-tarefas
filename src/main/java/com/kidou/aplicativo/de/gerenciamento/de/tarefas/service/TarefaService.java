@@ -27,8 +27,6 @@ import java.util.stream.Collectors;
 @Service
 public class TarefaService {
 
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private TarefaRepository tarefaRepository;
@@ -37,23 +35,12 @@ public class TarefaService {
     private ModelMapper modelMapper;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private UsuarioService usuarioService;
 
 
-    private Long obtemIdUsuario() {
-
-        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuario = (Usuario) usuarioService.loadUserByUsername(email);
-        Long idUsuario = usuario.getId();
-        return idUsuario;
-    }
-
     public List<TarefaDTO> buscaTarefasPorIdUsuario() throws GerenciamentoDeTarefasException, ParseException {
 
-        Long idUsuario = obtemIdUsuario();
+        Long idUsuario = usuarioService.obtemIdUsuario();
 
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasPorIdUsuario(idUsuario);
 
@@ -121,10 +108,6 @@ public class TarefaService {
 
         LocalDateTime agora = LocalDateTime.now();
 
-        if (tarefas.isEmpty()) {
-            throw new GerenciamentoDeTarefasException("Nenhuma tarefa no momento");
-        }
-
         for (Tarefa t : tarefas) {
             if (t.getPrazoDaTarefa().isBefore(agora)) {
                 t.setStatus(Status.ATRASADA);
@@ -158,7 +141,7 @@ public class TarefaService {
     }
 
     public List<TarefaDTO> buscaTarefasAtrasadasPorIdUsuario() throws GerenciamentoDeTarefasException {
-        Long idUsuario = obtemIdUsuario();
+        Long idUsuario = usuarioService.obtemIdUsuario();
 
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAtrasadasPorIdUsuario(idUsuario);
 
@@ -200,7 +183,7 @@ public class TarefaService {
 
     public List<TarefaDTO> buscarTarefasAbertasPorIdUsuario() throws GerenciamentoDeTarefasException {
 
-        Long idUsuario = obtemIdUsuario();
+        Long idUsuario = usuarioService.obtemIdUsuario();
 
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasAbertasPorIdUsuario(idUsuario);
 
@@ -239,7 +222,7 @@ public class TarefaService {
     }
 
     public List<TarefaDTO> buscaTarefasRealizadasPorIdUsuario() throws GerenciamentoDeTarefasException {
-        Long idUsuario = obtemIdUsuario();
+        Long idUsuario = usuarioService.obtemIdUsuario();
 
         List<Tarefa> tarefasRealizadas = tarefaRepository.buscaTarefasRealizadasPorIdUsuario(idUsuario);
         if (tarefasRealizadas.isEmpty()) {
@@ -281,7 +264,7 @@ public class TarefaService {
     }
 
     public List<TarefaDTO> buscarTarefasEntreAsDatasPorIdUsuario(LocalDate dataDeInicio, LocalDate dataDeTermino) throws GerenciamentoDeTarefasException {
-        Long idUsuario = obtemIdUsuario();
+        Long idUsuario = usuarioService.obtemIdUsuario();
 
         LocalDateTime inicioDoDia = dataDeInicio.atStartOfDay();
         LocalDateTime fimDoDia = dataDeTermino.atTime(LocalTime.MAX);
@@ -313,7 +296,7 @@ public class TarefaService {
 
     public String concluiTarefaPorIdUsuario(Long idTarefa) throws GerenciamentoDeTarefasException {
 
-        Long idUsuario = obtemIdUsuario();
+        Long idUsuario = usuarioService.obtemIdUsuario();
         tarefaRepository.concluiTarefaPorIdUsuario(idTarefa, idUsuario);
 
         Tarefa tarefa = tarefaRepository.findById(idTarefa).orElseThrow(() -> new GerenciamentoDeTarefasException("Tarefa não encontrada"));
@@ -341,7 +324,7 @@ public class TarefaService {
     }
 
     public void deleteTarefaPorIdUsuario(Long idTarefa) throws GerenciamentoDeTarefasException {
-        Long idUsuario = obtemIdUsuario();
+        Long idUsuario = usuarioService.obtemIdUsuario();
 
         Tarefa tarefa = tarefaRepository.findById(idTarefa).orElseThrow(() -> new GerenciamentoDeTarefasException("Tarefa não encontrada"));
         boolean isTheUser = tarefaRepository.tarefaIsTheUser(idTarefa, idUsuario);

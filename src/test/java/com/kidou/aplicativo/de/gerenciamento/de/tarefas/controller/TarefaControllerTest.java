@@ -73,7 +73,7 @@ class TarefaControllerTest {
     TarefaCompatilhadaDTO tarefaCompatilhadaDTO = new TarefaCompatilhadaDTO(listUserCompartilhada, "TarefaCompartilhada", Nivel.ELEVADO, LocalDateTime.now(), LocalDateTime.now());
 
     List<UsuarioDTO> listUserSolo = new ArrayList<>();
-    TarefaDTO tarefaDTOSolo = new TarefaDTO(listUserSolo, "Tarefa", Nivel.BAIXO, LocalDateTime.now(), LocalDateTime.now());
+    TarefaDTO tarefaDTOSolo = new TarefaDTO(listUserSolo, "Tarefa", Nivel.BAIXO,Status.ATRASADA, LocalDateTime.now(), LocalDateTime.now());
 
 
     @BeforeEach

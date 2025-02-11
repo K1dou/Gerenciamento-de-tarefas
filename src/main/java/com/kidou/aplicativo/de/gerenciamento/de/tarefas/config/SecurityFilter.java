@@ -2,6 +2,7 @@ package com.kidou.aplicativo.de.gerenciamento.de.tarefas.config;
 
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.model.entity.Usuario;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.repository.UsuarioRepository;
+import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.UserDetailsServiceClass;
 import com.kidou.aplicativo.de.gerenciamento.de.tarefas.service.UsuarioService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,7 +26,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UserDetailsServiceClass userDetailsServiceClass;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -33,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = recoverToken(request);
         if (token!=null){
 
-         UserDetails userDetails = usuarioService.loadUserByUsername(tokenService.validateToken(token));
+         UserDetails userDetails = userDetailsServiceClass.loadUserByUsername(tokenService.validateToken(token));
          var auth = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),null,userDetails.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(auth);

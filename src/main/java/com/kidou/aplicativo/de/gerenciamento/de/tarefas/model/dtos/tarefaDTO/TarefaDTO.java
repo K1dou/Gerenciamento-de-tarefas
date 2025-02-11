@@ -30,10 +30,11 @@ public class TarefaDTO {
     public TarefaDTO() {
     }
 
-    public TarefaDTO(List<UsuarioDTO> user, String descricao, Nivel nivel, LocalDateTime dataDaTarefa, LocalDateTime prazoDaTarefa) {
+    public TarefaDTO(List<UsuarioDTO> user, String descricao, Nivel nivel, Status status, LocalDateTime dataDaTarefa, LocalDateTime prazoDaTarefa) {
         this.user = user;
         this.descricao = descricao;
         this.nivel = nivel;
+        this.status = status;
         this.dataDaTarefa = dataDaTarefa;
         this.prazoDaTarefa = prazoDaTarefa;
     }

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService  {
 
 
     @Autowired
@@ -46,18 +47,12 @@ public class UsuarioService implements UserDetailsService {
     private final Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public Long obtemIdUsuario() {
 
-        Usuario usuario = usuarioRepository.findByEmail(email);
-        if (usuario == null) {
-            try {
-                throw new GerenciamentoDeTarefasException("Usuario com email:" + email + ", Não encontrado");
-            } catch (GerenciamentoDeTarefasException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return usuario;
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(email);
+        Long idUsuario = usuario.getId();
+        return idUsuario;
     }
 
 
