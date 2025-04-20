@@ -1,6 +1,7 @@
 # Gerenciamento de Tarefas
 
 ![Java](https://img.shields.io/badge/Java-100%25-orange)
+![spring]
 
 Bem-vindo ao repositório do **Gerenciamento de Tarefas**! Este projeto foi desenvolvido com o objetivo de facilitar o controle e organização de tarefas, permitindo que os usuários acompanhem seus compromissos e melhorem sua produtividade.
 
