@@ -1,13 +1,13 @@
 # Gerenciamento de Tarefas
 
-![Java](https://img.shields.io/badge/Java-100%25-orange)
-![spring]
+![Java](https://img.shields.io/badge/Java-100%25-orange) ![Spring](https://img.shields.io/badge/Spring-Framework-brightgreen)
 
-Bem-vindo ao repositório do **Gerenciamento de Tarefas**! Este projeto foi desenvolvido com o objetivo de facilitar o controle e organização de tarefas, permitindo que os usuários acompanhem seus compromissos e melhorem sua produtividade.
+Bem-vindo ao repositório do **Gerenciamento de Tarefas**! Este projeto foi desenvolvido com o objetivo de facilitar o controle e organização de tarefas, seja individualmente ou em grupo, permitindo que os usuários acompanhem seus compromissos e melhorem sua produtividade.
 
 ## 📝 Funcionalidades
 
 - 📋 **Cadastro de Tarefas**: Adicione tarefas com detalhes como título, descrição, prazo e prioridade.
+- 👥 **Tarefas em Grupo**: Crie tarefas para grupos e distribua automaticamente as subtarefas entre os participantes.
 - ✅ **Atualização de Status**: Marque tarefas como concluídas e acompanhe seu progresso.
 - 🔍 **Busca e Filtros**: Encontre tarefas rapidamente com filtros por status, data ou prioridade.
 - 📊 **Relatórios**: Visualize estatísticas de produtividade.
@@ -17,6 +17,7 @@ Bem-vindo ao repositório do **Gerenciamento de Tarefas**! Este projeto foi dese
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 - **Java**: Linguagem principal do projeto.
+- **Spring Framework**: Framework utilizado para simplificar o desenvolvimento e a organização do código.
 - **JUnit**: Framework utilizado para testes unitários, garantindo a confiabilidade do código.
 - **Mockito**: Ferramenta usada para criação de mocks em testes, facilitando a simulação de dependências.
 
@@ -30,7 +31,7 @@ Os testes têm um papel fundamental neste projeto para garantir a qualidade do c
 
 Para rodar os testes, use o seguinte comando no terminal:
 ```bash
-./gradlew test
+./maven test
 ```
 Ou configure sua IDE para executar os testes diretamente.
 
@@ -70,9 +71,6 @@ Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests o
 Se quiser saber mais sobre este projeto ou discutir oportunidades, entre em contato:
 
 - **Autor**: [K1dou](https://github.com/K1dou)
-- **Email**: [seu-email@email.com](mailto:seu-email@email.com)
-- **LinkedIn**: [Seu Perfil](https://www.linkedin.com/in/seu-perfil)
+- **Email**: [hique1276@gmail.com](mailto:hique1276@gmail.com)
+- **LinkedIn**: [Seu Perfil](https://www.linkedin.com/in/marcelo-henrique-290a37202/)
 
----
-
-Esse README agora destaca o uso de JUnit e Mockito, o que pode impressionar recrutadores interessados em boas práticas de testes. Se precisar de mais ajustes, é só avisar!
