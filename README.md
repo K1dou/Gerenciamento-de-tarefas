@@ -72,5 +72,5 @@ Se quiser saber mais sobre este projeto ou discutir oportunidades, entre em cont
 
 - **Autor**: [K1dou](https://github.com/K1dou)
 - **Email**: [hique1276@gmail.com](mailto:hique1276@gmail.com)
-- **LinkedIn**: [Seu Perfil](https://www.linkedin.com/in/marcelo-henrique-290a37202/)
+- **LinkedIn**: [Marcelo Henrique](https://www.linkedin.com/in/marcelo-henrique-290a37202/)
 
